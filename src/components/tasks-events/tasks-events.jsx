@@ -211,7 +211,6 @@ export default class TasksEvents extends React.Component {
             data,
             name
         } = this.state;
-        console.log(data);
 
         return (
             <div className='tasks-events-page'>
