@@ -236,52 +236,56 @@ export default class TasksEvents extends React.Component {
                             </Button>
                         </Form.Group>
                     </Form>
-                    {isLoaded && data.tasks.length && (
+                    {isLoaded && (
                         <div>
                             <div>
                                 Tasks
                             </div>
-                            <Table striped bordered hover variant="dark">
-                                <thead>
-                                <tr>
-                                    {titles.map(title => (
-                                        <th>{title}</th>
-                                    ))}
-                                </tr>
-                                </thead>
-                                {isLoaded &&
-                                <tbody>
-                                {data.tasks.map(item => (
+                            {isLoaded && data.tasks.length && (
+                                <Table striped bordered hover variant="dark">
+                                    <thead>
                                     <tr>
-                                        {this.renderRow(titles, item)}
+                                        {titles.map(title => (
+                                            <th>{title}</th>
+                                        ))}
                                     </tr>
-                                ))}
-                                </tbody>}
-                            </Table>
+                                    </thead>
+                                    {isLoaded &&
+                                    <tbody>
+                                    {data.tasks.map(item => (
+                                        <tr>
+                                            {this.renderRow(titles, item)}
+                                        </tr>
+                                    ))}
+                                    </tbody>}
+                                </Table>
+                            )}
                         </div>
                     )}
-                    {isLoaded && data.events.length && (
+                    {isLoaded && (
                         <div>
                             <div>
                                 Events
                             </div>
-                            <Table striped bordered hover variant="dark">
-                                <thead>
-                                <tr>
-                                    {titlesEvent.map(title => (
-                                        <th>{title}</th>
-                                    ))}
-                                </tr>
-                                </thead>
-                                {isLoaded &&
-                                <tbody>
-                                {data.events.map(item => (
+                            {data.events.length && (
+                                <Table striped bordered hover variant="dark">
+                                    <thead>
                                     <tr>
-                                        {this.renderRow(titlesEvent, item)}
+                                        {titlesEvent.map(title => (
+                                            <th>{title}</th>
+                                        ))}
                                     </tr>
-                                ))}
-                                </tbody>}
-                            </Table>
+                                    </thead>
+                                    {isLoaded &&
+                                    <tbody>
+                                    {data.events.map(item => (
+                                        <tr>
+                                            {this.renderRow(titlesEvent, item)}
+                                        </tr>
+                                    ))}
+                                    </tbody>}
+                                </Table>
+                            )}
                         </div>
                     )}
                 </div>
