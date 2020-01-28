@@ -15,6 +15,8 @@ import TasksEvents from './components/tasks-events/tasks-events';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+import Cookie from './cookie/cookie';
+
 // function Alert() {
 //
 //     return <Button onClick={() => setShow(true)}>Show Alert</Button>;
@@ -24,12 +26,34 @@ class App extends React.Component {
     constructor() {
         super();
 
+        const state = {
+            errorMsg: '',
+            authUser: false
+        };
+
+        this.cookie = new Cookie();
+
+        if (this.cookie.get('user')) {
+            state.authUser = true;
+        }
+
         this.state = {
-            errorMsg: ''
+            ...state
         };
 
         this.onError = this.onError.bind(this);
         this.closeError = this.closeError.bind(this);
+        this.checkCookie = this.checkCookie.bind(this);
+    }
+
+    checkCookie() {
+        let authUser = false;
+
+        if (this.cookie.get('user')) {
+            authUser = true;
+        }
+
+        this.setState({authUser});
     }
 
     onError(errorMsg) {
@@ -69,27 +93,30 @@ class App extends React.Component {
                     <Navbar.Brand href="/home">DIPS</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link href="/home">Home</Nav.Link>
-                        <Nav.Link href="/login">Login</Nav.Link>
-                        <Nav.Link href="/register">Register</Nav.Link>
-                        <Nav.Link href="/tasks">Tasks</Nav.Link>
-                        <Nav.Link href="/tasksevents">All</Nav.Link>
+                        {!this.state.authUser && <Nav.Link href="/login">Login</Nav.Link>}
+                        {!this.state.authUser && <Nav.Link href="/register">Register</Nav.Link>}
+                        {this.state.authUser && <Nav.Link href="/tasks">Tasks</Nav.Link>}
+                        {this.state.authUser && <Nav.Link href="/tasksevents">All</Nav.Link>}
                     </Nav>
                 </Navbar>
                 <Router history={history}>
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/register" component={Register} />
+                    {!this.state.authUser && <Route
+                        exact
+                        path="/login"
+                        component={() => <Login checkCookie={this.checkCookie}/>} />}
+                    {!this.state.authUser && <Route exact path="/register" component={Register} />}
                     <Route
                         exact
                         path="/home"
                         component={() => <Users onError={this.onError} />} />
-                    <Route
+                    {this.state.authUser && <Route
                         exact
                         path="/tasks"
-                        component={() => <Tasks onError={this.onError} />} />
-                    <Route
+                        component={() => <Tasks onError={this.onError} />} />}
+                    {this.state.authUser && <Route
                         exact
                         path="/tasksevents"
-                        component={() => <TasksEvents onError={this.onError} />} />
+                        component={() => <TasksEvents onError={this.onError} />} />}
                 </Router>
                 <div className="footer-copyright text-center py-3" />
             </div>

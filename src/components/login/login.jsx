@@ -2,8 +2,11 @@ import React from 'react';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Cookie from '../../cookie/cookie';
 
 import './login.css';
+import PropTypes from "prop-types";
+import Tasks from "../tasks/tasks";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -16,6 +19,8 @@ export default class Login extends React.Component {
             isLoading: false,
 
         };
+
+        this.cookie = new Cookie();
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeValue = this.onChangeValue.bind(this);
@@ -46,7 +51,7 @@ export default class Login extends React.Component {
                 isLoading: true
             });
 
-            fetch('http://localhost:8000/api/login',  {
+            fetch('http://localhost:8009/auth/auth',  {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -57,9 +62,13 @@ export default class Login extends React.Component {
                 })
             })
             .then(resp => {
-                if (resp.status === 200) {
+                if (resp.status < 300) {
                     // eslint-disable-next-line no-restricted-globals
-                    location.href = '/home';
+                    resp.json().then(data => {
+                        this.cookie.set('user', data.userId);
+                        this.cookie.set('token', data.session.token);
+                        this.props.checkCookie();
+                    });
                 } else {
                     console.log(resp);
                     resp.json().then(error => (error.message)).then(validation => {
@@ -122,3 +131,7 @@ export default class Login extends React.Component {
         );
     }
 }
+
+Login.propTypes = {
+    checkCookie: PropTypes.func
+};
