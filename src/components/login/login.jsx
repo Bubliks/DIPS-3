@@ -44,7 +44,7 @@ export default class Login extends React.Component {
 
         if (!name || !password) {
             this.setState({
-                validation: 'Login or password is empty!'
+                validation: 'Oauth or password is empty!'
             })
         } else {
             this.setState({

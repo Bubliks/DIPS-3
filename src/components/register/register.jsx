@@ -40,7 +40,7 @@ export default class Register extends React.Component {
 
         if (!name || !password || !mail) {
             this.setState({
-                validation: 'Login, password or mail is empty!'
+                validation: 'Oauth, password or mail is empty!'
             })
         } else {
             this.setState({

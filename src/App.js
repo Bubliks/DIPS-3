@@ -11,6 +11,7 @@ import Register from './components/register/register';
 import Users from './components/users/users';
 import Tasks from './components/tasks/tasks';
 import Events from './components/events/events';
+import Oauth from './components/oauth/oauth';
 import TasksEvents from './components/tasks-events/tasks-events';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -100,6 +101,7 @@ class App extends React.Component {
                         {this.state.authUser && <Nav.Link href="/events">Events</Nav.Link>}
                         {this.state.authUser && <Nav.Link href="/tasksevents">All</Nav.Link>}
                         {this.state.authUser && <Nav.Link href="/home" onClick= {() => {this.cookie.deleteAllCookies()}} >Logout</Nav.Link>}
+                        {this.state.authUser && <Nav.Link href="/oauth">Oauth</Nav.Link>}
                     </Nav>
                 </Navbar>
                 <Router history={history}>
@@ -116,6 +118,9 @@ class App extends React.Component {
                         exact
                         path="/tasks"
                         component={() => <Tasks onError={this.onError} />} />}
+                    {this.state.authUser && <Route
+                        path="/oauth"
+                        component={() => <Oauth onError={this.onError} />} />}
                     {this.state.authUser && <Route
                         exact
                         path="/tasksevents"
