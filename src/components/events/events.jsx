@@ -6,11 +6,11 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 
-import './tasks.css';
+import './events.css';
 import PropTypes from "prop-types";
 import Cookie from "../../cookie/cookie";
 
-export default class Tasks extends React.Component {
+export default class Events extends React.Component {
     constructor(props) {
         super(props);
 
@@ -34,7 +34,7 @@ export default class Tasks extends React.Component {
 
         console.log('user:', this.cookie.get("user"), 'token: ', this.cookie.get("token"));
 
-        fetch(`http://localhost:8000/api/user/${this.cookie.get("user")}/allTasks`,  {
+        fetch(`http://localhost:8000/api/user/${this.cookie.get("user")}/allEvents`,  {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ export default class Tasks extends React.Component {
     }
 
     render() {
-        const titles = ['id', 'title', 'description', 'createdAt'];
+        const titles = ['id', 'title', 'description', 'date', 'startTime', 'endTime'];
         const {
             isLoading,
             isLoaded,
@@ -146,8 +146,8 @@ export default class Tasks extends React.Component {
         console.log(data);
 
         return (
-            <div className='tasks-page'>
-                <div className='form-task'>
+            <div className='events-page'>
+                <div className='form-events'>
                     {/*<Form noValidate>*/}
                     {/*    <Form.Group as={Row} controlId="formHorizontalSearch">*/}
                     {/*        <Col sm={10}>*/}
@@ -194,6 +194,6 @@ export default class Tasks extends React.Component {
     }
 }
 
-Tasks.propTypes = {
+Events.propTypes = {
     onError: PropTypes.func
 };

@@ -10,6 +10,7 @@ import Login from './components/login/login';
 import Register from './components/register/register';
 import Users from './components/users/users';
 import Tasks from './components/tasks/tasks';
+import Events from './components/events/events';
 import TasksEvents from './components/tasks-events/tasks-events';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -94,9 +95,11 @@ class App extends React.Component {
                     <Nav className="mr-auto">
                         <Nav.Link href="/home">Home</Nav.Link>
                         {!this.state.authUser && <Nav.Link href="/login">Login</Nav.Link>}
-                        {!this.state.authUser && <Nav.Link href="/register">Register</Nav.Link>}
+                        {/*{!this.state.authUser && <Nav.Link href="/register">Register</Nav.Link>}*/}
                         {this.state.authUser && <Nav.Link href="/tasks">Tasks</Nav.Link>}
+                        {this.state.authUser && <Nav.Link href="/events">Events</Nav.Link>}
                         {this.state.authUser && <Nav.Link href="/tasksevents">All</Nav.Link>}
+                        {this.state.authUser && <Nav.Link href="/home" onClick= {() => {this.cookie.deleteAllCookies()}} >Logout</Nav.Link>}
                     </Nav>
                 </Navbar>
                 <Router history={history}>
@@ -104,7 +107,7 @@ class App extends React.Component {
                         exact
                         path="/login"
                         component={() => <Login checkCookie={this.checkCookie}/>} />}
-                    {!this.state.authUser && <Route exact path="/register" component={Register} />}
+                    {/*{!this.state.authUser && <Route exact path="/register" component={Register} />}*/}
                     <Route
                         exact
                         path="/home"
@@ -117,6 +120,10 @@ class App extends React.Component {
                         exact
                         path="/tasksevents"
                         component={() => <TasksEvents onError={this.onError} />} />}
+                    {this.state.authUser && <Route
+                        exact
+                        path="/events"
+                        component={() => <Events onError={this.onError} />} />}
                 </Router>
                 <div className="footer-copyright text-center py-3" />
             </div>
